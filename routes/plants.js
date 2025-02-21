@@ -46,7 +46,11 @@ router.put("/:id", async (req, res) => {
     if (!plant) {
       return res.status(404).json({ message: "Plant not found" });
     }
-    plant.destroy();
+    const {name, perennial, category, price} = req.body;
+    if (!name || !`${perennial}` || !category || !price) {
+      return res.status(403).json({message: 'Missing data'})
+    }
+    plant.update({name, perennial, category, price});
     res.status(200).json({ message: "Plant deleted" });
   } catch (err) {
     res.status(500).json({ message: `Server error: ${err.message}` });
